@@ -216,6 +216,17 @@ export const adConfig = {
     renderStartImplemented: true,
   },
 
+  appvador: {
+    prefetch: [
+      'https://cdn.apvdr.com/js/VastAdUnit.min.js',
+      'https://cdn.apvdr.com/js/VideoAd.min.js',
+      'https://cdn.apvdr.com/js/VideoAd3PAS.min.js',
+      'https://cdn.apvdr.com/js/VideoAdAutoPlay.min.js',
+      'https://cdn.apvdr.com/js/VideoAdNative.min.js',
+    ],
+    renderStartImplemented: true,
+  },
+
   amoad: {
     prefetch: [
       'https://j.amoad.com/js/a.js',
@@ -232,10 +243,22 @@ export const adConfig = {
   appnexus: {
     prefetch: 'https://acdn.adnxs.com/ast/ast.js',
     preconnect: 'https://ib.adnxs.com',
+    renderStartImplemented: true,
   },
 
   atomx: {
     prefetch: 'https://s.ato.mx/p.js',
+  },
+
+  beopinion: {
+    prefetch: 'https://widget.beopinion.com/sdk.js',
+    // prefetch: 'http://localhost:8081/sdk-4.0.0.js',
+    preconnect: [
+      'https://t.beopinion.com',
+      'https://s.beopinion.com',
+      'https://data.beopinion.com',
+    ],
+    renderStartImplemented: true,
   },
 
   bidtellect: {},
@@ -766,6 +789,10 @@ export const adConfig = {
       'https://ad.jp.ap.valuecommerce.com',
       'https://ad.omks.valuecommerce.com',
     ],
+    renderStartImplemented: true,
+  },
+
+  videonow: {
     renderStartImplemented: true,
   },
 
