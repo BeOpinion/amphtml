@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import {loadScript} from './3p';
-import {setStyles} from '../src/style';
+import { loadScript } from "./3p";
+import { setStyles } from "../src/style";
 
 /**
  * Produces the Twitter API object for the passed in callback. If the current
@@ -26,8 +26,8 @@ import {setStyles} from '../src/style';
  * @param {function(!Object)} cb
  */
 function getBeOpinion(global, cb) {
-  loadScript(global, 'https://widget.beopinion.com/sdk.js', function() {
-  // loadScript(global, 'http://localhost:8081/sdk-4.0.0.js', function() {
+  loadScript(global, "http://localhost:8080/sdk.js", function() {
+    // loadScript(global, 'http://localhost:8081/sdk-4.0.0.js', function() {
     cb(global.BeOpinionSDK);
   });
 }
@@ -39,9 +39,9 @@ function getBeOpinion(global, cb) {
 function addCanonicalLinkTag(global) {
   const canonicalUrl = global.context.canonicalUrl;
   if (canonicalUrl) {
-    const link = global.document.createElement('link');
-    link.setAttribute('rel', 'canonical');
-    link.setAttribute('href', canonicalUrl);
+    const link = global.document.createElement("link");
+    link.setAttribute("rel", "canonical");
+    link.setAttribute("href", canonicalUrl);
     global.document.head.appendChild(link);
   }
 }
@@ -55,31 +55,31 @@ function createContainer(global, data) {
   addCanonicalLinkTag(global);
 
   // create div
-  const container = global.document.createElement('container');
-  container.className = 'BeOpinionWidget';
+  const container = global.document.createElement("container");
+  container.className = "BeOpinionWidget";
 
   // get content id
-  if (data['content'] !== null) {
-    container.setAttribute('data-content', data['content']);
+  if (data["content"] !== null) {
+    container.setAttribute("data-content", data["content"]);
   }
 
   // get my-content value, forcing it to '1' if it is not an amp-ad
-  if (global.context.tagName === 'AMP-BEOPINION') {
-    container.setAttribute('data-my-content', '1');
-  } else if (data['my-content'] !== null) {
-    container.setAttribute('data-my-content', data['my-content']);
+  if (global.context.tagName === "AMP-BEOPINION") {
+    container.setAttribute("data-my-content", "1");
+  } else if (data["my-content"] !== null) {
+    container.setAttribute("data-my-content", data["my-content"]);
   }
 
   // get slot name
-  if (data['name'] !== null) {
-    container.setAttribute('data-name', data['name']);
+  if (data["name"] !== null) {
+    container.setAttribute("data-name", data["name"]);
   }
 
   setStyles(container, {
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   });
 
   return container;
@@ -91,14 +91,13 @@ function createContainer(global, data) {
  */
 export function beopinion(global, data) {
   const container = createContainer(global, data);
-  const c = global.document.getElementById('c');
+  const c = global.document.getElementById("c");
   c.appendChild(container);
-
-  getBeOpinion(global, function(sdk) { // , context) {
-    sdk.init({
+  global.beOpinionAsyncInit = function() {
+    global.BeOpinionSDK.init({
       account: data.account,
       onContentReceive: function(hasContent) {
-        console.log('onContentReceive', hasContent);
+        console.log("onContentReceive", hasContent);
         if (hasContent) {
           global.context.renderStart();
         } else {
@@ -106,12 +105,13 @@ export function beopinion(global, data) {
         }
       },
       onHeightChange: function(newHeight) {
-        console.log('onHeightChange', newHeight);
+        console.log("onHeightChange", newHeight);
         const boundingClientRect = c.getBoundingClientRect();
         global.context.onResizeDenied(global.context.requestResize);
         global.context.requestResize(boundingClientRect.width, newHeight);
       }
     });
-    sdk['watch'](); // sdk.watch() fails 'gulp check-types' validation on Travis
-  });
+    global.BeOpinionSDK["watch"](); // sdk.watch() fails 'gulp check-types' validation on Travis
+  };
+  getBeOpinion(global, function() {});
 }
