@@ -1,0 +1,42 @@
+tags: {  # amp-beop
+  html_format: AMP
+  tag_name: "SCRIPT"
+  extension_spec: {
+    name: "amp-beop"
+    version: "0.1"
+    version: "latest"
+  }
+  attr_lists: "common-extension-attrs"
+}
+tags: {  # <amp-beop>
+  html_format: AMP
+  tag_name: "AMP-BEOP"
+  requires_extension: "amp-beop"
+  attrs: {
+    name: "data-account"
+    value_regex_casei: "[0-9a-f]{24}"
+    mandatory: true
+  }
+  attrs: {
+    name: "data-content"
+    value_regex_casei: "[0-9a-f]{24}"
+  }
+  attrs: {
+    name: "data-my-content"
+    value: "0"
+    value: "1"
+  }
+  attrs: {
+    name: "data-name"
+  }
+  attr_lists: "extended-amp-global"
+  amp_layout: {
+    supported_layouts: FILL
+    supported_layouts: FIXED
+    supported_layouts: FIXED_HEIGHT
+    supported_layouts: FLEX_ITEM
+    supported_layouts: INTRINSIC
+    supported_layouts: NODISPLAY
+    supported_layouts: RESPONSIVE
+  }
+}
